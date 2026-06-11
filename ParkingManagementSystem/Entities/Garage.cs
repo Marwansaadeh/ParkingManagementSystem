@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ParkingManagementSystem.Entities
 {
-    public class Garage<T>: IEnumerable<T>
+    public class Garage<T> where T : Vehicle
     {
         private T[] _vehicles;
         public Garage(int capacity)
@@ -39,9 +39,9 @@ namespace ParkingManagementSystem.Entities
             return false;
          }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    return GetEnumerator();
+        //}
     }
 }
