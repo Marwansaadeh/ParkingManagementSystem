@@ -6,26 +6,29 @@ using System.Text;
 
 namespace ParkingManagementSystem.Entities
 {
-    public class Garage<T> where T : Vehicle
+    public class Garage<T> : IEnumerable<T>, IGarage<T>
+        where T : Vehicle
     {
+        private int _capacity;
         private T[] _vehicles;
+        public int Capacity => _capacity;
+        public int Count
+        {
+            get
+            {
+                int count = 0;
+                foreach (var v in _vehicles)
+                    if (v != null) count++;
+                return count;
+            }
+        }
+
         public Garage(int capacity)
         {
             _vehicles = new T[capacity];
+            _capacity = capacity;
         }
-
-        
-        public IEnumerator<T> GetEnumerator()
-        {
-            foreach (var vehicle in _vehicles)
-            {
-                if (vehicle != null)
-                {
-                    yield return vehicle;
-                }
-            }
-        }
-      
+       
         public bool Park(T vehicle)
         {
             for (int i = 0; i < _vehicles.Length; i++)
@@ -37,11 +40,42 @@ namespace ParkingManagementSystem.Entities
                 }
             }
             return false;
-         }
+        }
 
-        //IEnumerator IEnumerable.GetEnumerator()
-        //{
-        //    return GetEnumerator();
-        //}
+        public bool Remove(string registrationNumber)
+        {
+            if (string.IsNullOrEmpty(registrationNumber))
+                throw new ArgumentException("Registration number cannot be null or empty.", nameof(registrationNumber));
+
+            for (int i = 0; i < _vehicles.Length; i++)
+            {
+                if (_vehicles[i] != null &&
+                    _vehicles[i].RegistrationNumber == registrationNumber)
+                {
+                    _vehicles[i] = null;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach (var vehicle in _vehicles)
+            {
+                if (vehicle != null)
+                {
+                    yield return vehicle;
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        
     }
 }
