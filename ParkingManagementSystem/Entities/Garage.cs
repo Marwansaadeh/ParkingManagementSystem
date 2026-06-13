@@ -9,8 +9,8 @@ namespace ParkingManagementSystem.Entities
     public class Garage<T> : IEnumerable<T>, IGarage<T>
         where T : Vehicle
     {
-        private int _capacity;
-        private T[] _vehicles;
+        private readonly int _capacity;
+        private readonly T[] _vehicles;
         public int Capacity => _capacity;
         public int Count
         {
@@ -31,6 +31,9 @@ namespace ParkingManagementSystem.Entities
        
         public bool Park(T vehicle)
         {
+            if (Count >= Capacity)
+                return false;
+
             for (int i = 0; i < _vehicles.Length; i++)
             {
                 if (_vehicles[i] == null)
@@ -75,7 +78,6 @@ namespace ParkingManagementSystem.Entities
         {
             return GetEnumerator();
         }
-
         
     }
 }

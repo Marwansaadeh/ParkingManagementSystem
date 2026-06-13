@@ -5,13 +5,11 @@ using System.Text;
 
 namespace ParkingManagementSystem
 {
-    public interface IGarage<T>  where T : Vehicle 
+    public interface IGarage<T> : IEnumerable<T> where T : Vehicle
     {
         bool Park(T vehicle);
         bool Remove(string registrationNumber);
-
         int Capacity { get; }
         int Count { get; }
-
     }
 }

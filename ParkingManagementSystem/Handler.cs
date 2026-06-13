@@ -2,55 +2,85 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+
 
 namespace ParkingManagementSystem
 {
     public class Handler : IHandler
     {
-        //private readonly IGarage<Vehicle> _garage;
-        public void AddTtoalParks(int numberOfParks)
+        private readonly IGarage<Vehicle> _garage;
+        public Handler(IGarage<Vehicle> garage)
         {
-            throw new NotImplementedException();
+            _garage = garage;
         }
-
+        public int ParkedVehicles()
+        {
+            return _garage.Count;
+        }
+        public int ParkCapacity()
+        {
+            return _garage.Capacity;
+        }
         public Vehicle FindVehicle(Func<Vehicle, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _garage.FirstOrDefault(predicate);
         }
 
         public IEnumerable<Vehicle> GetParkedVehicles()
         {
-            throw new NotImplementedException();
+            return _garage;
         }
 
-        public IEnumerable<VehicleTypeCount> GetParkedVehiclesWithTotal()
+        public IEnumerable<VehicleTypeCount> GetTotalParkedType()
         {
-            throw new NotImplementedException();
+            return _garage
+                   .GroupBy(v => v.GetType().Name)
+                   .Select(g => new VehicleTypeCount(
+                       g.Key,
+                       g.Count()
+                   ));
         }
 
-        public Vehicle GetVehicle(string registrationNumber)
+        public Vehicle? GetVehicle(string registrationNumber)
         {
-            throw new NotImplementedException();
+           return _garage.FirstOrDefault(x => x.RegistrationNumber==registrationNumber);
         }
 
-        public List<string> GetVehiclesTypes()
+        public StringBuilder GetVehiclesTypes()
         {
-            throw new NotImplementedException();
+            var sb = new StringBuilder();
+
+            foreach (var item in _garage.Select(v => v.GetType().Name))
+            {
+                sb.AppendLine($"{item}");
+            }
+
+            return sb;
         }
 
         public bool ParkVehicle(Vehicle vehicle)
         {
-            throw new NotImplementedException();
+            if (_garage.Count < _garage.Capacity)
+            {
+                return _garage.Park(vehicle);
+            }
+
+            return false;
         }
 
         public bool RemoveVehicle(string registrationNumber)
         {
-            throw new NotImplementedException();
+          return _garage.Remove(registrationNumber);       
         }
 
-        public void SeedParks(int numberOfParks)
+        public void SeedVehicles(IEnumerable<Vehicle> vehicles)
         {
-            throw new NotImplementedException();
+            foreach (var v in vehicles)
+            {
+                _garage.Park(v);
+            }
         }
+
     }
 }
