@@ -1,140 +1,179 @@
 ﻿using ParkingManagementSystem.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ParkingManagementSystem.UIServices
 {
-    public class UiService:IUiService
+    using global::ParkingManagementSystem.Factories;
+
+    namespace ParkingManagementSystem.UIServices
     {
-        private readonly IUI _iUi;
-        public UiService( IUI Iui)
+        public class UiService : IUiService
         {
-            _iUi= Iui;
-        }
+            private readonly IUI _ui;
+            private readonly IVehicleInputHandler _vehicleInputHandler;
 
-        public Vehicle UIAddVehicleService()
-        {
-            var factories = new Dictionary<string, Func<Vehicle>>(StringComparer.OrdinalIgnoreCase)
+            public UiService(IUI ui, IVehicleInputHandler vehicleInputHandler)
             {
-                ["Car"] = () => new Car(),
-                ["Motorcycle"] = () => new Motorcycle(),
-                ["Bus"] = () => new Bus(),
-                ["Boat"] = () => new Boat(),
-                ["Airplane"] = () => new Airplane()
-            };
-
-            Console.WriteLine("Available vehicle types:");
-
-            foreach (var type in factories.Keys)
-                Console.WriteLine(type);
-
-            Console.Write("Vehicle type: ");
-            string vehicleType = _iUi.ReadFromConsole("Vehicle type is required.");
-
-            Func<Vehicle>? factory = null;
-
-            while (!factories.TryGetValue(vehicleType, out factory))
-            {
-                Console.WriteLine("Invalid vehicle type.");
-                Console.Write("Vehicle type: ");
-                vehicleType = _iUi.ReadFromConsole("Vehicle type is required.");
+                _ui = ui;
+                _vehicleInputHandler = vehicleInputHandler;
             }
 
-
-            Console.Write("Registration number: ");
-            string registrationNumber =
-                _iUi.ReadFromConsole("Registration number is required.");
-
-            Vehicle vehicle = factory();
-
-            vehicle.RegistrationNumber = registrationNumber;
-
-            Console.Write("Color (Enter to skip): ");
-            vehicle.Color = _iUi.ReadFromConsole("");
-
-            Console.Write("Number of wheels (Enter to skip): ");
-            vehicle.NumberOfWheels = _iUi.ReadNumeric<int>("");
-
-            Console.Write("Weight (Enter to skip): ");
-            vehicle.Weight = _iUi.ReadNumeric<double>("");
-
-            Console.Write("Max speed (Enter to skip): ");
-            vehicle.MaxSpeed = _iUi.ReadNumeric<int>("");
-
-            switch (vehicle)
+            public Vehicle UIAddVehicleService()
             {
-                case Car car:
+                Vehicle vehicle = CreateVehicle();
 
-                    Console.Write("Number of doors (Enter to skip): ");
-                    car.NumberOfDoors = _iUi.ReadNumeric<int>("");
+                ReadCommonProperties(vehicle);
 
-                    Console.Write("Fuel type (Enter to skip): ");
-                    car.FuelType =
-                        _iUi.ReadOptionalEnum<FuelType>() ?? default;
+                ReadVehicleSpecificProperties(vehicle);
 
-                    break;
-
-                case Motorcycle motorcycle:
-
-                    Console.Write("Cylinder volume (Enter to skip): ");
-                    motorcycle.CylinderVolume =
-                        _iUi.ReadNumeric<int>("");
-
-                    Console.Write("Has sidecar (y/n, Enter to skip): ");
-                    string? sidecar = _iUi.ReadFromConsole("");
-
-                    if (sidecar != null)
-                        motorcycle.HasSidecar =
-                            sidecar.Equals("y",
-                            StringComparison.OrdinalIgnoreCase);
-
-                    break;
-
-                case Bus bus:
-
-                    Console.Write("Number of seats (Enter to skip): ");
-                    bus.NumberOfSeats =
-                        _iUi.ReadNumeric<int>("");
-
-                    Console.Write("Double decker (y/n, Enter to skip): ");
-                    string? doubleDecker = _iUi.ReadFromConsole("");
-
-                    if (doubleDecker != null)
-                        bus.IsDoubleDecker =
-                            doubleDecker.Equals("y",
-                            StringComparison.OrdinalIgnoreCase);
-
-                    break;
-
-                case Boat boat:
-
-                    Console.Write("Length (Enter to skip): ");
-                    boat.Length =
-                        _iUi.ReadNumeric<double>("");
-
-                    Console.Write("Hull type (Enter to skip): ");
-                    boat.HullType =_iUi.ReadFromConsole("");
-
-                    break;
-
-                case Airplane airplane:
-
-                    Console.Write("Number of engines (Enter to skip): ");
-                    airplane.NumberOfEngines =
-                        _iUi.ReadNumeric<int>("");
-
-                    Console.Write("Max altitude (Enter to skip): ");
-                    airplane.MaxAltitude =
-                       _iUi.ReadNumeric<int>("");
-
-                    break;
+                return vehicle;
             }
 
-            return vehicle;
-        }
+            private Vehicle CreateVehicle()
+            {
+                Console.WriteLine("Available vehicle types:");
+                Console.WriteLine("Car");
+                Console.WriteLine("Motorcycle");
+                Console.WriteLine("Bus");
+                Console.WriteLine("Boat");
+                Console.WriteLine("Airplane");
 
+                while (true)
+                {
+                    Console.Write("Vehicle type: ");
+
+                    VehicleType vehicleType =
+                        _ui.ReadEnum<VehicleType>("vehicle type is required");
+
+                    try
+                    {
+                        Vehicle vehicle =
+                            _vehicleInputHandler.Create(vehicleType);
+
+                        Console.Write("Registration number: ");
+
+                        vehicle.RegistrationNumber =
+                            _ui.ReadFromConsole(
+                                "Registration number is required.");
+
+                        return vehicle;
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine("Invalid vehicle type.");
+                    }
+                }
+            }
+
+            private void ReadCommonProperties(Vehicle vehicle)
+            {
+                Console.Write("Color: ");
+
+                string colorInput =
+                    _ui.ReadFromConsole("Color is required.");
+
+                if (Enum.TryParse<Color>(colorInput, true, out Color color))
+                {
+                    vehicle.Color = color;
+                }
+
+                Console.Write("Number of wheels: ");
+                vehicle.NumberOfWheels =
+                    _ui.ReadNumeric<int>("Enter a valid number.");
+
+                Console.Write("Weight: ");
+                vehicle.Weight =
+                    _ui.ReadNumeric<double>("Enter a valid weight.");
+
+                Console.Write("Max speed: ");
+                vehicle.MaxSpeed =
+                    _ui.ReadNumeric<int>("Enter a valid speed.");
+            }
+
+            private void ReadVehicleSpecificProperties(Vehicle vehicle)
+            {
+                switch (vehicle)
+                {
+                    case Car car:
+                        ReadCarProperties(car);
+                        break;
+
+                    case Motorcycle motorcycle:
+                        ReadMotorcycleProperties(motorcycle);
+                        break;
+
+                    case Bus bus:
+                        ReadBusProperties(bus);
+                        break;
+
+                    case Boat boat:
+                        ReadBoatProperties(boat);
+                        break;
+
+                    case Airplane airplane:
+                        ReadAirplaneProperties(airplane);
+                        break;
+                }
+            }
+
+            private void ReadCarProperties(Car car)
+            {
+                Console.Write("Number of doors: ");
+                car.NumberOfDoors =
+                    _ui.ReadNumeric<int>("Enter a valid number.");
+
+                Console.Write("Fuel type: ");
+                car.FuelType =
+                    _ui.ReadEnum<FuelType>("fuel type is required");
+            }
+
+            private void ReadMotorcycleProperties(Motorcycle motorcycle)
+            {
+                Console.Write("Cylinder volume: ");
+                motorcycle.CylinderVolume =
+                    _ui.ReadNumeric<int>("Enter a valid number.");
+
+                Console.Write("Has sidecar (y/n): ");
+
+                motorcycle.HasSidecar =
+                    _ui.ReadFromConsole("")
+                       .Equals("y", StringComparison.OrdinalIgnoreCase);
+            }
+
+            private void ReadBusProperties(Bus bus)
+            {
+                Console.Write("Number of seats: ");
+                bus.NumberOfSeats =
+                    _ui.ReadNumeric<int>("Enter a valid number.");
+
+                Console.Write("Double decker (y/n): ");
+
+                bus.IsDoubleDecker =
+                    _ui.ReadFromConsole("")
+                       .Equals("y", StringComparison.OrdinalIgnoreCase);
+            }
+
+            private void ReadBoatProperties(Boat boat)
+            {
+                Console.Write("Length: ");
+                boat.Length =
+                    _ui.ReadNumeric<double>("Enter a valid length.");
+
+                Console.Write("Hull type: ");
+                boat.HullType =
+                    _ui.ReadFromConsole("");
+            }
+
+            private void ReadAirplaneProperties(Airplane airplane)
+            {
+                Console.Write("Number of engines: ");
+                airplane.NumberOfEngines =
+                    _ui.ReadNumeric<int>("Enter a valid number.");
+
+                Console.Write("Max altitude: ");
+                airplane.MaxAltitude =
+                    _ui.ReadNumeric<int>("Enter a valid altitude.");
+            }
+        }
     }
-           
-    }
+}
 

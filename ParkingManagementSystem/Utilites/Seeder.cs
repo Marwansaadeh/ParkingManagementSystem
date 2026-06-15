@@ -14,10 +14,10 @@ namespace ParkingManagementSystem.Utilites
     new(2, "Show Capacity"),
     new(3, "List Vehicles"),
     new(4, "List Vehicle Types"),
-    new(5, "Add Vehicle"),
+    new(5, "Park Vehicle"),
     new(6, "Find Vehicle"),
     new(7, "Search Vehicles"),
-    new(8, "Remove Vehicle"),
+    new(8, "UnPark Vehicle"),
     new(0, "Exit")
     ];
 
@@ -27,7 +27,7 @@ namespace ParkingManagementSystem.Utilites
 {
     VehicleType = VehicleType.Airplane,
     RegistrationNumber = "SE-ABC",
-    Color = "White",
+    Color = Color.White,
     NumberOfWheels = 12,
     Weight = 45000,
     MaxSpeed = 900,
@@ -39,7 +39,7 @@ namespace ParkingManagementSystem.Utilites
 {
                VehicleType=VehicleType.Boat,
     RegistrationNumber = "BOAT-001",
-    Color = "Blue",
+    Color = Color.Blue,
     NumberOfWheels = 0,
     Weight = 2500,
     MaxSpeed = 60,
@@ -51,7 +51,7 @@ namespace ParkingManagementSystem.Utilites
 {
                 VehicleType=VehicleType.Bus,
     RegistrationNumber = "BUS-001",
-    Color = "Yellow",
+    Color =Color.Yellow,
     NumberOfWheels = 6,
     Weight = 12000,
     MaxSpeed = 100,
@@ -63,7 +63,7 @@ namespace ParkingManagementSystem.Utilites
 {
         VehicleType=VehicleType.Car,
     RegistrationNumber = "CAR-001",
-    Color = "Black",
+    Color = Color.Black,
     NumberOfWheels = 4,
     Weight = 1500,
     MaxSpeed = 220,
@@ -75,7 +75,7 @@ namespace ParkingManagementSystem.Utilites
 {
     VehicleType=VehicleType.Car,
     RegistrationNumber = "CAR-002",
-    Color = "White",
+    Color = Color.Black,
     NumberOfWheels = 4,
     Weight = 1800,
     MaxSpeed = 200,
@@ -87,7 +87,7 @@ namespace ParkingManagementSystem.Utilites
 {
                VehicleType= VehicleType.Motorcycle,
     RegistrationNumber = "MC-002",
-    Color = "Black",
+    Color = Color.Black,
     NumberOfWheels = 3,
     Weight = 350,
     MaxSpeed = 140,

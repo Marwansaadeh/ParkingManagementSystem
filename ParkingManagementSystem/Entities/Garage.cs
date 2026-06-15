@@ -6,22 +6,13 @@ using System.Text;
 
 namespace ParkingManagementSystem.Entities
 {
-    public class Garage<T> : IEnumerable<T>, IGarage<T>
+    public class Garage<T> : IGarage<T>
         where T : Vehicle
     {
         private readonly int _capacity;
-        private readonly T[] _vehicles;
+        private readonly T?[] _vehicles;
         public int Capacity => _capacity;
-        public int Count
-        {
-            get
-            {
-                int count = 0;
-                foreach (var v in _vehicles)
-                    if (v != null) count++;
-                return count;
-            }
-        }
+        public int Count { get; private set; }
 
         public Garage(int capacity)
         {
@@ -39,6 +30,7 @@ namespace ParkingManagementSystem.Entities
                 if (_vehicles[i] == null)
                 {
                     _vehicles[i] = vehicle;
+                    Count++;
                     return true;
                 }
             }
@@ -53,9 +45,10 @@ namespace ParkingManagementSystem.Entities
             for (int i = 0; i < _vehicles.Length; i++)
             {
                 if (_vehicles[i] != null &&
-                    _vehicles[i].RegistrationNumber == registrationNumber)
+                    _vehicles[i]?.RegistrationNumber == registrationNumber)
                 {
                     _vehicles[i] = null;
+                    Count--;
                     return true;
                 }
             }

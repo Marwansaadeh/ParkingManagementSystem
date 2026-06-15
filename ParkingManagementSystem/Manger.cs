@@ -22,10 +22,10 @@ namespace ParkingManagementSystem
     { 2, ShowCapacity },
     { 3, ListVehicles },
     { 4, ListVehicleTypes },
-    { 5, AddVehicle },
+    { 5, ParkVehicle },
     { 6, FindVehicle },
     { 7, SearchVehicles },
-    { 8, RemoveVehicle },
+    { 8, UnParkVehicle },
     { 0, ExitApplication }
 };
         }
@@ -52,6 +52,10 @@ namespace ParkingManagementSystem
                 {
                     Console.WriteLine("Invalid choice.");
                 }
+                Console.WriteLine("\nPress any key to return to menu...");
+                Console.ReadKey();
+
+                Console.Clear();
             }
         }
 
@@ -76,27 +80,32 @@ namespace ParkingManagementSystem
             _handler.CreateGarage(capacity);
 
             Console.WriteLine("Garage successfully created.");
-            
+
         }
         private void SearchVehicles()
         {
-            Console.Write("Color (Enter to skip): ");
-            string? color = Console.ReadLine();
+            Console.Write("Color: ");
+            var color = _ui.ReadEnum<Color>("Invalid color");
 
-            Console.Write("Number of wheels (0 to skip): ");
+            Console.Write("Number of wheels: ");
             int wheels = _ui.ReadNumeric<int>("Invalid number");
 
             var result = _handler.SearchVehicles(v =>
-                (string.IsNullOrWhiteSpace(color) ||
-                 v.Color.Equals(color, StringComparison.OrdinalIgnoreCase))
-                &&
-                (wheels == 0 || v.NumberOfWheels == wheels)
-            );
+                v.Color == color &&
+                v.NumberOfWheels == wheels);
 
-            foreach (var vehicle in result)
+            if (!result.Any())
             {
-                Console.WriteLine(vehicle.ToString());
+                Console.WriteLine("No vehicle found ");
             }
+            else
+            {
+                foreach (var vehicle in result)
+                {
+                    Console.WriteLine(vehicle.ToString());
+                }
+            }
+
         }
 
         private void ShowCapacity()
@@ -124,11 +133,11 @@ namespace ParkingManagementSystem
         {
             foreach (var item in _handler.GetTotalParkedType())
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"Type: { item.VehicleType},Total: { item.Count}");
             }
         }
 
-        private void AddVehicle()
+        private void ParkVehicle()
         {
             Vehicle vehicle = _uiService.UIAddVehicleService();
 
@@ -154,10 +163,10 @@ namespace ParkingManagementSystem
                 return;
             }
 
-            Console.WriteLine(vehicle);
+            Console.WriteLine(vehicle.ToString());
         }
 
-        private void RemoveVehicle()
+        private void UnParkVehicle()
         {
             Console.Write("Registration number: ");
 
@@ -175,6 +184,5 @@ namespace ParkingManagementSystem
         {
             Environment.Exit(0);
         }
-
     }
 }

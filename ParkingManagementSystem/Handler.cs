@@ -9,7 +9,7 @@ namespace ParkingManagementSystem
 {
     public class Handler : IHandler
     {
-        private  IGarage<Vehicle> _garage;
+        private IGarage<Vehicle> _garage;
         public Handler(IGarage<Vehicle> garage)
         {
             _garage = garage;
@@ -44,7 +44,7 @@ namespace ParkingManagementSystem
 
         public Vehicle? GetVehicle(string registrationNumber)
         {
-           return _garage.FirstOrDefault(x => x.RegistrationNumber==registrationNumber);
+            return _garage.FirstOrDefault(x => x.RegistrationNumber == registrationNumber);
         }
 
         public StringBuilder GetVehiclesTypes()
@@ -71,7 +71,7 @@ namespace ParkingManagementSystem
 
         public bool RemoveVehicle(string registrationNumber)
         {
-          return _garage.Remove(registrationNumber);       
+            return _garage.Remove(registrationNumber);
         }
 
         public void SeedVehicles(IEnumerable<Vehicle> vehicles)
