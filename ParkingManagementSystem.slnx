@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="ParkingManagementSystem.Test/ParkingManagementSystem.Test.csproj" Id="9b4d280b-fa13-4537-9515-284226eb8108" />
   <Project Path="ParkingManagementSystem/ParkingManagementSystem.csproj" />
 </Solution>
