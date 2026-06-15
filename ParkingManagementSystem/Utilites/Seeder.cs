@@ -7,24 +7,25 @@ namespace ParkingManagementSystem.Utilites
 {
     public class Seeder
     {
+
         public readonly MenuItem[] MenuItems =
-            [
-                new(1, "Create Garage"),
-        new(2, "List All Vehicles"),
-        new(3, "Show Vehicle Statistics"),
-        new(4, "Park Vehicle"),
-        new(5, "Remove Vehicle"),
-        new(6, "Find Vehicle by Registration Number"),
-        new(7, "Search Vehicles"),
-        new(8, "Populate Garage with Test Data"),
-        new(9, "Show Garage Information"),
-        new(0, "Exit")
-            ];
+    [
+        new(1, "Create Garage"),
+    new(2, "Show Capacity"),
+    new(3, "List Vehicles"),
+    new(4, "List Vehicle Types"),
+    new(5, "Add Vehicle"),
+    new(6, "Find Vehicle"),
+    new(7, "Search Vehicles"),
+    new(8, "Remove Vehicle"),
+    new(0, "Exit")
+    ];
 
         public readonly Vehicle[] vehicles = [
 
             new Airplane
 {
+    VehicleType = VehicleType.Airplane,
     RegistrationNumber = "SE-ABC",
     Color = "White",
     NumberOfWheels = 12,
@@ -36,6 +37,7 @@ namespace ParkingManagementSystem.Utilites
 },
            new Boat
 {
+               VehicleType=VehicleType.Boat,
     RegistrationNumber = "BOAT-001",
     Color = "Blue",
     NumberOfWheels = 0,
@@ -47,6 +49,7 @@ namespace ParkingManagementSystem.Utilites
 },
             new Bus
 {
+                VehicleType=VehicleType.Bus,
     RegistrationNumber = "BUS-001",
     Color = "Yellow",
     NumberOfWheels = 6,
@@ -58,6 +61,7 @@ namespace ParkingManagementSystem.Utilites
 },
     new Car
 {
+        VehicleType=VehicleType.Car,
     RegistrationNumber = "CAR-001",
     Color = "Black",
     NumberOfWheels = 4,
@@ -69,6 +73,7 @@ namespace ParkingManagementSystem.Utilites
 },
          new Car
 {
+    VehicleType=VehicleType.Car,
     RegistrationNumber = "CAR-002",
     Color = "White",
     NumberOfWheels = 4,
@@ -80,6 +85,7 @@ namespace ParkingManagementSystem.Utilites
 },
            new Motorcycle
 {
+               VehicleType= VehicleType.Motorcycle,
     RegistrationNumber = "MC-002",
     Color = "Black",
     NumberOfWheels = 3,
@@ -91,7 +97,6 @@ namespace ParkingManagementSystem.Utilites
 }
 
             ];
-
     }
 
 }

@@ -11,6 +11,8 @@ namespace ParkingManagementSystem.Entities
         public int NumberOfWheels { get; set; }
         public double Weight { get; set; }             
         public int MaxSpeed { get; set; }
+
+        public VehicleType VehicleType { get; set; } 
         public virtual string ToString()
         {
             return $"Registration: {RegistrationNumber}, Color: {Color}, Wheels: {NumberOfWheels}, Weight: {Weight}, MaxSpeed: {MaxSpeed}";

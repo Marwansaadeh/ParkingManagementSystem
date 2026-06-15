@@ -1,8 +1,10 @@
 ﻿using ParkingManagementSystem;
 using ParkingManagementSystem.Entities;
-IGarage<Vehicle> garage = new Garage<Vehicle>(5);
+using ParkingManagementSystem.UIServices;
+
 IUI uI = new UI();
+IUiService uiService = new UiService(uI);
+IGarage<Vehicle> garage = new Garage<Vehicle>(100);
 IHandler handler = new Handler(garage);
-Manger manager = new(handler,uI);
-manager.Star();
-manager.Run();
+Manager manager = new(handler,uI,uiService);
+manager.Start();

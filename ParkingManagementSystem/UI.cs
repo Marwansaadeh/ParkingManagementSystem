@@ -51,5 +51,17 @@ namespace ParkingManagementSystem
                 Console.WriteLine(errorMessage);
             }
         }
+
+        public TEnum? ReadOptionalEnum<TEnum>() where TEnum : struct, Enum
+        {
+            string? input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+                return null;
+
+            return Enum.TryParse<TEnum>(input, true, out TEnum value)
+                ? value
+                : null;
+        }
     }
 }

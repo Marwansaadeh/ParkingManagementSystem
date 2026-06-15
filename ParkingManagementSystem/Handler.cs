@@ -9,7 +9,7 @@ namespace ParkingManagementSystem
 {
     public class Handler : IHandler
     {
-        private readonly IGarage<Vehicle> _garage;
+        private  IGarage<Vehicle> _garage;
         public Handler(IGarage<Vehicle> garage)
         {
             _garage = garage;
@@ -22,9 +22,9 @@ namespace ParkingManagementSystem
         {
             return _garage.Capacity;
         }
-        public Vehicle FindVehicle(Func<Vehicle, bool> predicate)
+        public IEnumerable<Vehicle> SearchVehicles(Func<Vehicle, bool> predicate)
         {
-            return _garage.FirstOrDefault(predicate);
+            return _garage.Where(predicate);
         }
 
         public IEnumerable<Vehicle> GetParkedVehicles()
@@ -35,7 +35,7 @@ namespace ParkingManagementSystem
         public IEnumerable<VehicleTypeCount> GetTotalParkedType()
         {
             return _garage
-                   .GroupBy(v => v.GetType().Name)
+                   .GroupBy(v => v.VehicleType)
                    .Select(g => new VehicleTypeCount(
                        g.Key,
                        g.Count()
@@ -82,5 +82,13 @@ namespace ParkingManagementSystem
             }
         }
 
+        public bool CreateGarage(int capacity)
+        {
+            if (capacity <= 0)
+                return false;
+            _garage = new Garage<Vehicle>(capacity);
+
+            return true;
+        }
     }
 }

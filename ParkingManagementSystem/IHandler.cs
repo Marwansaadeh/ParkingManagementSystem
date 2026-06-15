@@ -17,6 +17,7 @@ namespace ParkingManagementSystem
         void SeedVehicles(IEnumerable<Vehicle> vehicles);
         Vehicle GetVehicle(string registrationNumber);
         IEnumerable<Vehicle> GetParkedVehicles();
-        Vehicle FindVehicle(Func<Vehicle, bool> predicate);
+        IEnumerable<Vehicle> SearchVehicles(Func<Vehicle, bool> predicate);
+        bool CreateGarage(int capacity);
     }
 }

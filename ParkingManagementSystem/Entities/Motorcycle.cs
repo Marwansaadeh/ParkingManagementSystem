@@ -8,6 +8,5 @@ namespace ParkingManagementSystem.Entities
     {
         public int CylinderVolume { get; set; } 
         public bool HasSidecar { get; set; }
-
     }
 }

@@ -13,5 +13,7 @@ namespace ParkingManagementSystem
         string ReadFromConsole(string errorMessage);
 
         int ReadUserChooice();
+        TEnum? ReadOptionalEnum<TEnum>() where TEnum : struct, Enum;
+
     }
 }

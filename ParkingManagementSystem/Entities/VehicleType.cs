@@ -4,5 +4,12 @@ using System.Text;
 
 namespace ParkingManagementSystem.Entities
 {
-    public record VehicleTypeCount(VehicleType VehicleType, int Count);
+    public enum VehicleType
+    {
+        Car,
+        Motorcycle,
+        Bus,
+        Boat,
+        Airplane
+    }
 }
