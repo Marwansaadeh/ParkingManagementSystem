@@ -69,9 +69,9 @@ namespace ParkingManagementSystem
             return false;
         }
 
-        public bool RemoveVehicle(string registrationNumber)
+        public bool UnParkVehicle(string registrationNumber)
         {
-            return _garage.Remove(registrationNumber);
+            return _garage.UnPark(registrationNumber);
         }
 
         public void SeedVehicles(IEnumerable<Vehicle> vehicles)

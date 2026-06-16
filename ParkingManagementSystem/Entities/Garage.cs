@@ -25,6 +25,12 @@ namespace ParkingManagementSystem.Entities
             if (Count >= Capacity)
                 return false;
 
+            foreach (var v in _vehicles)
+            {
+                if (v?.RegistrationNumber == vehicle.RegistrationNumber)
+                    return false;
+            }
+
             for (int i = 0; i < _vehicles.Length; i++)
             {
                 if (_vehicles[i] == null)
@@ -34,10 +40,11 @@ namespace ParkingManagementSystem.Entities
                     return true;
                 }
             }
+
             return false;
         }
 
-        public bool Remove(string registrationNumber)
+        public bool UnPark(string registrationNumber)
         {
             if (string.IsNullOrEmpty(registrationNumber))
                 throw new ArgumentException("Registration number cannot be null or empty.", nameof(registrationNumber));
@@ -71,6 +78,6 @@ namespace ParkingManagementSystem.Entities
         {
             return GetEnumerator();
         }
-        
+
     }
 }

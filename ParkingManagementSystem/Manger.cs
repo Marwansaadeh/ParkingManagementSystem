@@ -173,7 +173,7 @@ namespace ParkingManagementSystem
             string regNo =
                 _ui.ReadFromConsole("Enter a valid registration number.");
 
-            bool removed = _handler.RemoveVehicle(regNo);
+            bool removed = _handler.UnParkVehicle(regNo);
 
             Console.WriteLine(
                 removed

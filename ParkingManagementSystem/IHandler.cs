@@ -13,7 +13,7 @@ namespace ParkingManagementSystem
         IEnumerable<VehicleTypeCount> GetTotalParkedType();
         StringBuilder GetVehiclesTypes();
         bool ParkVehicle(Vehicle vehicle);
-        bool RemoveVehicle(string registrationNumber);
+        bool UnParkVehicle(string registrationNumber);
         void SeedVehicles(IEnumerable<Vehicle> vehicles);
         Vehicle GetVehicle(string registrationNumber);
         IEnumerable<Vehicle> GetParkedVehicles();
