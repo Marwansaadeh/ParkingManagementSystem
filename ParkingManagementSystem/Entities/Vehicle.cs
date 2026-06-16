@@ -13,7 +13,7 @@ namespace ParkingManagementSystem.Entities
         public int MaxSpeed { get; set; }
 
         public VehicleType VehicleType { get; set; } 
-        public virtual string ToString()
+        public override string ToString()
         {
             return $"Registration: {RegistrationNumber}, Color: {Color}, Wheels: {NumberOfWheels}, Weight: {Weight}, MaxSpeed: {MaxSpeed}";
         }

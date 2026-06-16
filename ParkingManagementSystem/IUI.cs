@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace ParkingManagementSystem
@@ -12,7 +11,7 @@ namespace ParkingManagementSystem
         T ReadNumeric<T>(string errorMessage) where T : INumber<T>;
         string ReadFromConsole(string errorMessage);
 
-        int ReadUserChooice();
+        int ReadUserChoice();
         TEnum ReadEnum<TEnum>(string errorMessage) where TEnum : struct, Enum;
 
     }

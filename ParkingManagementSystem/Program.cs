@@ -2,7 +2,6 @@
 using ParkingManagementSystem.Entities;
 using ParkingManagementSystem.Factories;
 using ParkingManagementSystem.UIServices;
-using ParkingManagementSystem.UIServices.ParkingManagementSystem.UIServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -26,12 +25,12 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IGarage<Vehicle>>(sp =>
             new Garage<Vehicle>(100));
 
-        services.AddSingleton<IHandler, Handler>();
+        services.AddSingleton<IHandler, ParkingHandler>();
 
         services.AddSingleton<Manager>();
     })
     .UseConsoleLifetime()
     .Build();
 
-var manager = host.Services.GetRequiredService<Manager>();
-manager.Start();
+var appManager = host.Services.GetRequiredService<Manager>();
+appManager.Start();

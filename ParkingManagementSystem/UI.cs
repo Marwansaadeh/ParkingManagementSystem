@@ -16,10 +16,10 @@ namespace ParkingManagementSystem
                Console.WriteLine($"{item.Number}: {item.Title}");
             }
         }
-        public int ReadUserChooice()
+        public int ReadUserChoice()
         {
-            int chooice = ReadNumeric<int>("please choose a valid option");
-            return chooice;
+            int choice = ReadNumeric<int>("please choose a valid option");
+            return choice;
         }
 
         public string ReadFromConsole(string errorMessage)

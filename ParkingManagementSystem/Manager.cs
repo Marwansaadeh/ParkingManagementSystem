@@ -1,4 +1,4 @@
-﻿using ParkingManagementSystem.Entities;
+using ParkingManagementSystem.Entities;
 using ParkingManagementSystem.UIServices;
 using ParkingManagementSystem.Utilites;
 
@@ -17,17 +17,17 @@ namespace ParkingManagementSystem
             _ui = ui;
             _uiService = uiService;
             _executeMethods = new Dictionary<int, Action>
-{
-    { 1, CreateGarage },
-    { 2, ShowCapacity },
-    { 3, ListVehicles },
-    { 4, ListVehicleTypes },
-    { 5, ParkVehicle },
-    { 6, FindVehicle },
-    { 7, SearchVehicles },
-    { 8, UnParkVehicle },
-    { 0, ExitApplication }
-};
+            {
+                { 1, CreateGarage },
+                { 2, ShowCapacity },
+                { 3, ListVehicles },
+                { 4, ListVehicleTypes },
+                { 5, ParkVehicle },
+                { 6, FindVehicle },
+                { 7, SearchVehicles },
+                { 8, UnParkVehicle },
+                { 0, ExitApplication }
+            };
         }
 
         public void Start()
@@ -52,6 +52,7 @@ namespace ParkingManagementSystem
                 {
                     Console.WriteLine("Invalid choice.");
                 }
+
                 Console.WriteLine("\nPress any key to return to menu...");
                 Console.ReadKey();
 
@@ -82,6 +83,7 @@ namespace ParkingManagementSystem
             Console.WriteLine("Garage successfully created.");
 
         }
+
         private void SearchVehicles()
         {
             Console.Write("Color: ");
@@ -148,6 +150,7 @@ namespace ParkingManagementSystem
                     ? "Vehicle parked successfully."
                     : "Garage is full or vehicle already exists.");
         }
+
         private void FindVehicle()
         {
             Console.Write("Registration number: ");

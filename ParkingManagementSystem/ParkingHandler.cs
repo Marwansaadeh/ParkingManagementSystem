@@ -1,4 +1,4 @@
-﻿using ParkingManagementSystem.Entities;
+using ParkingManagementSystem.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace ParkingManagementSystem
 {
-    public class Handler : IHandler
+    public class ParkingHandler : IHandler
     {
         private IGarage<Vehicle> _garage;
-        public Handler(IGarage<Vehicle> garage)
+        public ParkingHandler(IGarage<Vehicle> garage)
         {
             _garage = garage;
         }
